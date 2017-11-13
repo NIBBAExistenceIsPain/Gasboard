@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
                 if(v.getId() == R.id.button)
                 {
                     bt.send((byte)05);
-                    Log.d("MSG","I send something" );
+                    Log.d("MSG","I send somethin" );
                 }
             }
         };
