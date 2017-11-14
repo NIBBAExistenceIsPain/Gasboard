@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
             {
                 if(v.getId() == R.id.button)
                 {
+                    bt.enableBluetooth();
+                    bt.connectToName("hc06");
                     bt.send((byte)05);
                     Log.d("MSG","I send somethin" );
                 }
@@ -53,9 +55,8 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
 
         // Set up blutooth connection
         bt = new Bluetooth(this);
-        bt.enableBluetooth();
         bt.setCommunicationCallback(this);
-        bt.connectToName("hc06");
+
 
 
 
