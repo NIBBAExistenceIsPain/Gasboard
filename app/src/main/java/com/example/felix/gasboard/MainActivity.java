@@ -1,6 +1,7 @@
 package com.example.felix.gasboard;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -108,5 +109,10 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
     @Override
     public void onConnectError(BluetoothDevice device, String message) {
 
+    }
+
+    public void goToList(View view){
+        Intent intent = new Intent(this, EditingScreen.class);
+        startActivity(intent);
     }
 }
