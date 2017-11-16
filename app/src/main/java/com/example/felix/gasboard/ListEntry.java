@@ -1,7 +1,5 @@
 package com.example.felix.gasboard;
 
-import java.util.ArrayList;
-
 /**
  * Created by Stacra on 13/11/2017.
  */
@@ -9,10 +7,10 @@ import java.util.ArrayList;
 public class ListEntry {
 
     private int width;
-    private int[] numbers;
+    private byte[] numbers;
     private String name;
 
-    public ListEntry(int width, int[] numbers, String name){
+    public ListEntry(int width, byte[] numbers, String name){
         this.name = name;
         this.numbers = numbers;
         this.width = width;
@@ -22,7 +20,7 @@ public class ListEntry {
         return width;
     }
 
-    public int[] getNumbers() {
+    public byte[] getNumbers() {
         return numbers;
     }
 

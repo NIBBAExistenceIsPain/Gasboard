@@ -121,12 +121,12 @@ public class Bluetooth {
      */
     private class ReceiveThread extends Thread implements Runnable {
         public void run() {
-            int msg;
+            byte msg;
             Log.d("MSG","RT started" );
             try {
                 while (true) {
                     Log.d("MSG","RT started" );
-                    msg = input.read();
+                    msg = ((byte)input.read());
                     ccb.onMessage(msg);
                 }
             } catch (IOException e) {
@@ -197,7 +197,7 @@ public class Bluetooth {
 
         void onDisconnect(BluetoothDevice device, String message);
 
-        void onMessage(int message);
+        void onMessage(byte message);
 
         void onError(String message);
 

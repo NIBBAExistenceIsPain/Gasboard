@@ -15,15 +15,41 @@ public class EditingScreen extends AppCompatActivity {
         setContentView(R.layout.activity_editing_screen);
 
 
-
+        Bundle bundle = getIntent().getExtras();
+        ArrayList<Byte> prices = (ArrayList<Byte>) bundle.getSerializable("prices");
+        ArrayList<Byte> params = (ArrayList<Byte>) bundle.getSerializable("params");
+        int y = 5;
         final ArrayList<ListEntry> list = new ArrayList<ListEntry>();
-        list.add(new ListEntry(4, new int[] {4, 5, 4, 9}, "ZeShower"));
-        list.add(new ListEntry(5, new int[] {4, 5, 4, 9, 8}, "ZeSmasher"));
-        list.add(new ListEntry(6, new int[] {4, 5, 4, 9, 8, 7}, "ZeCashew"));
-        list.add(new ListEntry(5, new int[] {8, 0, 0, 8, 5}, "ZeBoobs"));
+        for(int i = 0; i < prices.get(3);i++)
+        {
+            list.add(new ListEntry(prices.get(2),getPrice(y,prices),"PRICE"));
+            y += 3;
+        }
 
         ListAdapter adapter = new ListAdapter(this, list);
         ListView listView = (ListView) findViewById(R.id.listLayout);
         listView.setAdapter(adapter);
+    }
+
+    private byte[] getPrice(int i, ArrayList<Byte> prices)
+    {
+        byte[] b = new byte[6];
+        b[0] = (byte) (prices.get(i) % 10);
+        b[1] = (byte) (prices.get(i) / 10);
+        b[2] = (byte) (prices.get(i+1) % 10);
+        b[3] = (byte) (prices.get(i+1) / 10);
+        b[4] = (byte) (prices.get(i+2) % 10);
+        b[5] = (byte) (prices.get(i+2) / 10);
+
+        return b;
+
+    }
+
+    private byte decimalToBCD(byte dec) {
+        return 0;
+    }
+
+    private byte BCDtoDecimal(byte bcd) {
+        return 0;
     }
 }

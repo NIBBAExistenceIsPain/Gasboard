@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import Bluetooth.Bluetooth;
 
 public class MainActivity extends AppCompatActivity implements Bluetooth.CommunicationCallback
@@ -18,8 +20,12 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
     Button b1;
     Bluetooth bt;
     TextView  tv;
-    CharSequence text = "";
+    CharSequence text;
     boolean doubleBackToExitPressedOnce = false;
+    boolean recieving = false;
+    ArrayList<Byte> priceList;
+    ArrayList<Byte> paramList;
+    ArrayList<Byte> temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +43,14 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
         Context context = getApplicationContext();
         final Toast toast = Toast.makeText(context, text,Toast.LENGTH_SHORT);
 
+        priceList = new ArrayList<>();
+        paramList = new ArrayList<>();
+        temp = new ArrayList<>();
+        byte[] b = new byte[]{(byte) 0xEE, (byte) 0xC1,0x03 ,0x05 ,0x02 ,0x10 ,0x02 ,0x00,0x43, 0x05 ,0x00 ,0x76 ,0x08 ,0x00 ,0x09 ,0x01 ,0x00 ,0x32 ,0x04 ,0x00 , (byte) 0xE0, (byte) 0xE5};
+        for (byte b2 : b) {
+            priceList.add(b2);
+        }
+
         //create onClick event handler
         View.OnClickListener listen = new View.OnClickListener()
         {
@@ -47,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
                 {
                     bt.enableBluetooth();
                     bt.connectToName("hc06");
-                    bt.send((byte)05);
-                    Log.d("MSG","I send somethin" );
+                    Log.d("MSG","I connected to hc06" );
                 }
             }
         };
@@ -64,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
 
     }
 
-
+    //Confirm for second click on back
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -86,33 +99,57 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
 
 
     @Override
-    public void onConnect(BluetoothDevice device) {
-
+    public void onConnect(BluetoothDevice device)
+    {
+        // Successful connect message goes here
+        // Will enable the move button, which will be disabled.
     }
 
     @Override
-    public void onDisconnect(BluetoothDevice device, String message) {
-
+    public void onDisconnect(BluetoothDevice device, String message)
+    {
+        // Disconnect happens here
+        // Will return to main menu and disable the move button.
     }
 
     @Override
-    public void onMessage(int message) {
-        text = Integer.toString(message);
+    public void onMessage(byte message) {
+
+        //if message = D1 success prompt
+        if(message == 238 || recieving == true)
+        {
+            recieving = true;
+            temp.add(message);
+        }
+        if(message == 229 && recieving == true)
+        {
+            recieving = false;
+            if(temp.get(1) == 193)
+                priceList = new ArrayList<>(temp);
+            else
+                paramList = new ArrayList<>(temp);
+            temp.clear();
+        }
+
         Log.d("MSG", (String) text);
     }
 
     @Override
     public void onError(String message) {
-
+        //Handle exceptions here
     }
 
     @Override
-    public void onConnectError(BluetoothDevice device, String message) {
-
+    public void onConnectError(BluetoothDevice device, String message)
+    {
+        //Error: Unable to connect here
     }
 
     public void goToList(View view){
         Intent intent = new Intent(this, EditingScreen.class);
+        intent.putExtra("prices", priceList);
+        intent.putExtra("params", paramList);
         startActivity(intent);
+
     }
 }
