@@ -6,6 +6,157 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/down6"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/hundreds"
+        app:layout_constraintEnd_toEndOf="@+id/hundreds"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/decimals"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/down5"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/decimals"
+        app:layout_constraintEnd_toEndOf="@+id/decimals"
+        app:layout_constraintStart_toEndOf="@+id/point"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/down4"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/single"
+        app:layout_constraintEnd_toStartOf="@+id/point"
+        app:layout_constraintStart_toEndOf="@+id/ten"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/down3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ten"
+        app:layout_constraintEnd_toEndOf="@+id/ten"
+        app:layout_constraintStart_toEndOf="@+id/hundred"
+        tools:clickable="false" />
+
+    <Button
+        android:id="@+id/down2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/hundred"
+        app:layout_constraintEnd_toEndOf="@+id/hundred"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/thousand"
+        tools:clickable="false" />
+
+    <Button
+        android:id="@+id/down1"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/thousand"
+        app:layout_constraintEnd_toEndOf="@+id/thousand"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/thousand"
+        tools:clickable="false" />
+
+    <Button
+        android:id="@+id/up6"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/hundreds"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/decimals"
+        app:layout_constraintTop_toTopOf="@+id/hundreds"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/up5"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/decimals"
+        app:layout_constraintStart_toEndOf="@+id/point"
+        app:layout_constraintTop_toTopOf="@+id/decimals"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/up4"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/point"
+        app:layout_constraintStart_toEndOf="@+id/ten"
+        app:layout_constraintTop_toTopOf="@+id/single"
+        tools:clickable="true" />
+
+    <Button
+        android:id="@+id/up3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/ten"
+        app:layout_constraintStart_toEndOf="@+id/hundred"
+        app:layout_constraintTop_toTopOf="@+id/ten"
+        tools:clickable="false" />
+
+    <Button
+        android:id="@+id/up2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="@+id/hundred"
+        app:layout_constraintHorizontal_bias="0.312"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/thousand"
+        app:layout_constraintTop_toTopOf="@+id/hundred"
+        tools:clickable="false" />
+
+    <Button
+        android:id="@+id/up1"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/thousand"
+        app:layout_constraintStart_toStartOf="@+id/thousand"
+        app:layout_constraintTop_toTopOf="@+id/thousand"
+        tools:clickable="false" />
+
     <TextView
         android:id="@+id/nameField"
         android:layout_width="132dp"

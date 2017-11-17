@@ -3,6 +3,8 @@ package com.example.felix.gasboard;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
