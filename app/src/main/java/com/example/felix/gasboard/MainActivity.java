@@ -20,12 +20,12 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
     Button b1;
     Bluetooth bt;
     TextView  tv;
-    CharSequence text;
+    String text;
     boolean doubleBackToExitPressedOnce = false;
     boolean recieving = false;
-    ArrayList<Byte> priceList;
-    ArrayList<Byte> paramList;
-    ArrayList<Byte> temp;
+    ArrayList<Integer> priceList;
+    ArrayList<Integer> paramList;
+    ArrayList<Integer> temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
 
         priceList = new ArrayList<>();
         paramList = new ArrayList<>();
-        temp = new ArrayList<>();
-        byte[] b = new byte[]{(byte) 0xEE, (byte) 0xC1,0x03 ,0x05 ,0x02 ,0x10 ,0x02 ,0x00,0x43, 0x05 ,0x00 ,0x76 ,0x08 ,0x00 ,0x09 ,0x01 ,0x00 ,0x32 ,0x04 ,0x00 , (byte) 0xE0, (byte) 0xE5};
-        for (byte b2 : b) {
-            priceList.add(b2);
-        }
+        temp = new ArrayList<Integer>();
+        //int[] b = new int[]{ 0xEE, 0xC1,0x03 ,0x05 ,0x02 ,0x10 ,0x02 ,0x00,0x43, 0x05 ,0x00 ,0x76 ,0x08 ,0x00 ,0x09 ,0x01 ,0x00 ,0x32 ,0x04 ,0x00 , 0xE0, 0xE5};
+        //for (int b2 : b) {
+        //    priceList.add(b2);
+        //}
 
         //create onClick event handler
         View.OnClickListener listen = new View.OnClickListener()
@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
             {
                 if(v.getId() == R.id.button)
                 {
-                    bt.enableBluetooth();
-                    bt.connectToName("hc06");
+
                     Log.d("MSG","I connected to hc06" );
                 }
             }
@@ -69,8 +68,9 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
 
         // Set up blutooth connection
         bt = new Bluetooth(this);
+        bt.enableBluetooth();
         bt.setCommunicationCallback(this);
-
+        bt.connectToName("hc06");
 
 
 
@@ -108,30 +108,34 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
     @Override
     public void onDisconnect(BluetoothDevice device, String message)
     {
-        // Disconnect happens here
-        // Will return to main menu and disable the move button.
+        Log.d("MSG", "good");
     }
 
     @Override
     public void onMessage(byte message) {
-
+        //text = message;
+        Log.d("MSG", String.valueOf(message));
+        Log.d("MSG", "ss" + Integer.toHexString(message & 0xff));
         //if message = D1 success prompt
-        if(message == 238 || recieving == true)
+        if(message == -18 || recieving == true)
         {
+            Log.d("MSG", String.valueOf(message));
             recieving = true;
-            temp.add(message);
+            temp.add((int)message);
+
         }
-        if(message == 229 && recieving == true)
+        if(message == -27 && recieving == true)
         {
+            Log.d("MSG", String.valueOf(message));
             recieving = false;
-            if(temp.get(1) == 193)
+            if(temp.get(1) == -63)
                 priceList = new ArrayList<>(temp);
             else
                 paramList = new ArrayList<>(temp);
             temp.clear();
         }
 
-        Log.d("MSG", (String) text);
+
     }
 
     @Override
@@ -142,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
     @Override
     public void onConnectError(BluetoothDevice device, String message)
     {
-        //Error: Unable to connect here
+        Log.d("MSG", "bad");
     }
 
     public void goToList(View view){

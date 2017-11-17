@@ -7,10 +7,10 @@ package com.example.felix.gasboard;
 public class ListEntry {
 
     private int width;
-    private byte[] numbers;
+    private int[] numbers;
     private String name;
 
-    public ListEntry(int width, byte[] numbers, String name){
+    public ListEntry(int width, int[] numbers, String name){
         this.name = name;
         this.numbers = numbers;
         this.width = width;
@@ -20,7 +20,7 @@ public class ListEntry {
         return width;
     }
 
-    public byte[] getNumbers() {
+    public int[] getNumbers() {
         return numbers;
     }
 
