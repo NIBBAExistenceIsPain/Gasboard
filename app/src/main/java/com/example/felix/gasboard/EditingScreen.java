@@ -136,8 +136,6 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
 
         }
         if(message == (byte) 0xE5 && recieving) {
-            Log.d("d1", "" + checkSum(temp));
-            Log.d("d1", "" + temp.get(temp.size() - 2));
             if (checkSum(temp) == temp.get(temp.size() - 2)) {
                 Log.d("true", "good chacksum");
                 recieving = false;
@@ -261,19 +259,28 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
 
     public void priceDecToBCD(View view)
     {
-        int i = 0;
-        byte[] bcd = new byte[size*3];
+        int i = 2;
+        ArrayList<Integer> bcd = new ArrayList<>(size*3+4);
+        for(int y = 0; y < size*3+4; y++)
+        {
+            bcd.add(0);
+        }
+
+        bcd.set(0,0xEE);
+        bcd.set(1,0xB1);
         for(int y = 0; y < size; y++)
         {
             int[] a = adapter.getItem(y).getNumbers();
-            bcd[i++] = (byte) (a[0]+ 16*a[1]);
-            bcd[i++] = (byte) (a[2]+ 16*a[3]);
-            bcd[i++] = (byte) (a[4]+ 16*a[5]);
-
+            bcd.set(i++, (a[0] + 16 * a[1]));
+            bcd.set(i++, (a[2] + 16 * a[3]));
+            bcd.set(i++, (a[4] + 16 * a[5]));
         }
-        for(int y = 0; y<bcd.length;y++)
-        {
-            System.out.println("" + bcd[y]);
+        bcd.set(size * 3 + 2, checkSum(bcd));
+        bcd.set(size * 3 + 3, 0xEE);
+
+        for(int y = 0; y<bcd.size(); y++) {
+            int b = bcd.get(y);
+            bt.send((byte) b);
         }
 
     }

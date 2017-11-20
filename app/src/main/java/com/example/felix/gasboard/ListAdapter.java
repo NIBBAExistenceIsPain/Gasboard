@@ -53,6 +53,13 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
             btns.add((Button) listItemView.findViewById(resID));
         }
 
+        listItemView.findViewById(R.id.up3).setEnabled(false);
+        listItemView.findViewById(R.id.down3).setEnabled(false);
+        listItemView.findViewById(R.id.up2).setEnabled(false);
+        listItemView.findViewById(R.id.down2).setEnabled(false);
+        listItemView.findViewById(R.id.up1).setEnabled(false);
+        listItemView.findViewById(R.id.down1).setEnabled(false);
+
         final ListEntry x = getItem(position);
 
         ((TextView) listItemView.findViewById(R.id.nameField)).setText(x.getName());
@@ -61,8 +68,8 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
             case 4:
                 digits.get(3).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
                 digits.get(1).setText(String.valueOf(x.getNumbers()[1]));
@@ -73,10 +80,10 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
                 digits.get(3).setVisibility(View.VISIBLE);
                 digits.get(4).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
-                listItemView.findViewById(R.id.up2).setClickable(true);
-                listItemView.findViewById(R.id.down2).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
+                listItemView.findViewById(R.id.up2).setEnabled(true);
+                listItemView.findViewById(R.id.down2).setEnabled(true);
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
                 digits.get(1).setText(String.valueOf(x.getNumbers()[1]));
@@ -89,12 +96,12 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
                 digits.get(4).setVisibility(View.VISIBLE);
                 digits.get(5).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
-                listItemView.findViewById(R.id.up2).setClickable(true);
-                listItemView.findViewById(R.id.down2).setClickable(true);
-                listItemView.findViewById(R.id.up1).setClickable(true);
-                listItemView.findViewById(R.id.down1).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
+                listItemView.findViewById(R.id.up2).setEnabled(true);
+                listItemView.findViewById(R.id.down2).setEnabled(true);
+                listItemView.findViewById(R.id.up1).setEnabled(true);
+                listItemView.findViewById(R.id.down1).setEnabled(true);
 
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
