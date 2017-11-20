@@ -15,7 +15,6 @@ import java.util.UUID;
 
 //Bluetooth class used in Gasboard to manage the connection.
 //App requires manual pairing before execution as pairing and device discovery will not be implemented
-//This method is a SINGLETON!!!
 public class Bluetooth implements Serializable {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");    //WTF IS DIS
     private BluetoothAdapter bluetoothAdapter;                                                      //Android's bt adapter
