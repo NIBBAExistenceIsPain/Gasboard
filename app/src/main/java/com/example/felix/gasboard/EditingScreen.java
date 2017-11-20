@@ -30,10 +30,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         setContentView(R.layout.activity_editing_screen);
 
         //Set up list view
-        final ArrayList<ListEntry> list = new ArrayList<ListEntry>();
-        ListAdapter adapter = new ListAdapter(this, list);
-        ListView listView = (ListView) findViewById(R.id.listLayout);
-        listView.setAdapter(adapter);
+
 
         // Set up bluetooth connection
         bt = new Bluetooth();
@@ -58,16 +55,23 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         {
             bt.send((byte) SEND_REQUEST[i]);
         }
-        while(priceList.isEmpty());
+        while(priceList.isEmpty())
+        {
+            //wait to receive price
+        }
 
 
         //Add prices to list
         int y = 5;
+        final ArrayList<ListEntry> list = new ArrayList<ListEntry>();
         for(int i = 0; i < priceList.get(3);i++)
         {
             list.add(new ListEntry(priceList.get(2),getPrice(y,priceList),"PRICE"));
             y += 3;
         }
+        ListAdapter adapter = new ListAdapter(this, list);
+        ListView listView = (ListView) findViewById(R.id.listLayout);
+        listView.setAdapter(adapter);
 
 
     }
