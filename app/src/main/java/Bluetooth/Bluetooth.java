@@ -1,5 +1,5 @@
 package Bluetooth;
-import android.app.Activity;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -161,7 +161,7 @@ public class Bluetooth implements Serializable {
                 connected = true;
 
                 new ReceiveThread().start();
-                ccb.onConnect(device);
+                //ccb.onConnect(device);
 
 
             } catch (IOException e) {
