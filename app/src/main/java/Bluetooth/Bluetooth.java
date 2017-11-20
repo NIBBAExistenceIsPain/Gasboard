@@ -124,7 +124,6 @@ public class Bluetooth implements Serializable {
             Log.d("MSG","RT started" );
             try {
                 while (true) {
-                    Log.d("MSG","RT started" );
                     msg = ((byte)input.read());
                     ccb.onMessage(msg);
                 }
