@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,24 +14,22 @@ import java.util.ArrayList;
 
 import Bluetooth.Bluetooth;
 
-public class EditingScreen extends AppCompatActivity implements Bluetooth.CommunicationCallback {
-
+public class EditingScreen extends AppCompatActivity implements Bluetooth.CommunicationCallback
+{   //Declarations
     Bluetooth bt;
     boolean recieving = false;
     ArrayList<Integer> priceList;
     ArrayList<Integer> paramList;
     ArrayList<Integer> temp;
     boolean doubleBackToExitPressedOnce = false;
+    ListAdapter adapter;
+    int size;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {   //Set up activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editing_screen);
-
-        //Set up list view
-
-
-        //adapter.getItem(0).getNumbers();
 
         // Set up bluetooth connection
         bt = new Bluetooth();
@@ -50,31 +47,40 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         paramList = new ArrayList<>();
         temp = new ArrayList<Integer>();
 
-
-
-        int[] SEND_REQUEST = new int[]{0xEE, 0xB4, 0xB4, 0xE5};
+        int[] SEND_REQUEST = new int[]{0xEE, 0xB4, 0xB4, 0xE5}; // Request prices
         for(int i = 0; i<SEND_REQUEST.length; i++)
         {
             bt.send((byte) SEND_REQUEST[i]);
         }
         while(priceList.isEmpty())
         {
-            //wait to receive price
+            //wait to receive prices
         }
 
+        SEND_REQUEST = new int[]{0xEE, 0xB5, 0xB6, 0xE5}; // Request params
+        for(int i = 0; i<SEND_REQUEST.length; i++)
+        {
+            bt.send((byte) SEND_REQUEST[i]);
+        }
+        while(paramList.isEmpty())
+        {
+            //wait to receive params
+        }
 
         //Add prices to list
         int y = 5;
         final ArrayList<ListEntry> list = new ArrayList<ListEntry>();
+        size = priceList.get(3);
         for(int i = 0; i < priceList.get(3);i++)
         {
-            list.add(new ListEntry(priceList.get(2),getPrice(y,priceList),"PRICE"));
+            list.add(new ListEntry(priceList.get(2), priceBCDToDec(y,priceList),"PRICE"));
             y += 3;
         }
-        ListAdapter adapter = new ListAdapter(this, list);
+
+        //Set Up ListView
+        adapter = new ListAdapter(this, list);
         ListView listView = (ListView) findViewById(R.id.listLayout);
         listView.setAdapter(adapter);
-
 
     }
 
@@ -91,6 +97,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     }
 
     @Override
+    //Shows error message and returns to main screen
     public void onDisconnect(BluetoothDevice device, String message)
     {
         runOnUiThread(new Runnable() {
@@ -106,12 +113,13 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     }
 
     @Override
-    public void onMessage(byte message) {
+    public void onMessage(byte message)
+    {
 
         Log.d("MSG", String.valueOf(message));
-        Log.d("MSG", "ss" + Integer.toHexString(message & 0xff));
+        Log.d("MSG", "" + Integer.toHexString(message & 0xff));
 
-        if(message == 0xD1)
+        if(message == (byte) 0xD1)
         {
             runOnUiThread(new Runnable() {
                 public void run()
@@ -120,29 +128,40 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
                 }
             });
         }
-        if(message == -18 || recieving == true)
+        if(message == (byte)0xEE || recieving)
         {
             Log.d("MSG", String.valueOf(message));
             recieving = true;
             temp.add((int)message);
 
         }
-        if(message == -27 && recieving == true)
-        {
-            Log.d("MSG", String.valueOf(message));
-            recieving = false;
-            if(temp.get(1) == -63)
-                priceList = new ArrayList<>(temp);
+        if(message == (byte) 0xE5 && recieving) {
+            Log.d("d1", "" + checkSum(temp));
+            Log.d("d1", "" + temp.get(temp.size() - 2));
+            if (checkSum(temp) == temp.get(temp.size() - 2)) {
+                Log.d("true", "good chacksum");
+                recieving = false;
+                if (temp.get(1) == (byte) 0xC1)
+                {
+                    Log.d("true", "price");
+                    priceList = new ArrayList<>(temp);
+                }
+                else
+                    Log.d("true", "param");
+                    paramList = new ArrayList<>(temp);
+                temp.clear();
+            }
             else
-                paramList = new ArrayList<>(temp);
-            temp.clear();
+            {
+                recieving = false;
+                Log.d("false", "bad chacksum");
+            }
         }
-
-
     }
 
     @Override
-    public void onError(final String message) {
+    public void onError(final String message)
+    {
         runOnUiThread(new Runnable() {
             public void run()
             {
@@ -163,7 +182,6 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         });
     }
 
-
     private int[] getPrice(int i, ArrayList<Integer> prices)
     {
         String decs = ("00" + Integer.toHexString(prices.get(i))).substring(Integer.toHexString(prices.get(i)).length());
@@ -180,6 +198,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         return b;
 
     }
+    
     @Override
     //Confirm for second click on back
     public void onBackPressed()
@@ -200,4 +219,63 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             }
         }, 2000);
     }
+
+    private int[] priceBCDToDec(int i, ArrayList<Integer> prices)
+    {
+        String decs = ("00" + Integer.toHexString(prices.get(i))).substring(Integer.toHexString(prices.get(i)).length());
+        String ones = ("00" + Integer.toHexString(prices.get(i+1))).substring(Integer.toHexString(prices.get(i+1)).length());
+        String hundreds = ("00" + Integer.toHexString(prices.get(i+2))).substring(Integer.toHexString(prices.get(i+2)).length());
+        int[] b = new int[6];
+        b[0] = Character.getNumericValue(decs.charAt(1)); // returns asci code
+        b[1] = Character.getNumericValue(decs.charAt(0));
+        b[2] = Character.getNumericValue(ones.charAt(1));
+        b[3] = Character.getNumericValue(ones.charAt(0));
+        b[4] = Character.getNumericValue(hundreds.charAt(1));
+        b[5] = Character.getNumericValue(hundreds.charAt(0));
+
+        return b;
+    }
+
+    private static int checkSum(ArrayList<Integer> list)
+    {
+        int temp = list.get(0);
+        for(int i = 1 ; i < list.size() - 2 ;i++)
+        {
+
+            if((temp^ list.get(i)) < 0)
+            {
+                temp = (byte) (((temp^ list.get(i)) << 1)+1);
+            }
+            else
+            {
+                temp = (byte) ((temp^ list.get(i)) << 1);
+            }
+
+        }
+
+        if(temp == (byte)0xEE || temp == (byte)0xE5)
+            temp -= 0x0E;
+
+        return temp;
+    }
+
+    public void priceDecToBCD(View view)
+    {
+        int i = 0;
+        byte[] bcd = new byte[size*3];
+        for(int y = 0; y < size; y++)
+        {
+            int[] a = adapter.getItem(y).getNumbers();
+            bcd[i++] = (byte) (a[0]+ 16*a[1]);
+            bcd[i++] = (byte) (a[2]+ 16*a[3]);
+            bcd[i++] = (byte) (a[4]+ 16*a[5]);
+
+        }
+        for(int y = 0; y<bcd.length;y++)
+        {
+            System.out.println("" + bcd[y]);
+        }
+
+    }
+
 }
