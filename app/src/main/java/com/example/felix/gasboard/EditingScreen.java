@@ -35,6 +35,8 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         ListView listView = (ListView) findViewById(R.id.listLayout);
         listView.setAdapter(adapter);
 
+        //adapter.getItem(0).getNumbers();
+
         // Set up bluetooth connection
         bt = new Bluetooth();
         bt.setCommunicationCallback(this);
@@ -46,7 +48,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             //wait to connect!
         }
 
-        // Instantiate arrays
+        // Instantiate arryas
         priceList = new ArrayList<>();
         paramList = new ArrayList<>();
         temp = new ArrayList<Integer>();
@@ -156,6 +158,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             }
         });
     }
+
 
     private int[] getPrice(int i, ArrayList<Integer> prices)
     {
