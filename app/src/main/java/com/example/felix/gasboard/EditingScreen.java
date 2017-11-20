@@ -42,7 +42,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             //wait to connect!
         }
 
-        // Instantiate arrays
+        // Instantiate arryas
         priceList = new ArrayList<>();
         paramList = new ArrayList<>();
         temp = new ArrayList<Integer>();
@@ -182,6 +182,23 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         });
     }
 
+    private int[] getPrice(int i, ArrayList<Integer> prices)
+    {
+        String decs = ("00" + Integer.toHexString(prices.get(i))).substring(Integer.toHexString(prices.get(i)).length());
+        String ones = ("00" + Integer.toHexString(prices.get(i+1))).substring(Integer.toHexString(prices.get(i+1)).length());
+        String hundreds = ("00" + Integer.toHexString(prices.get(i+2))).substring(Integer.toHexString(prices.get(i+2)).length());
+        int[] b = new int[6];
+        b[0] = Character.getNumericValue(decs.charAt(1)); // returns asci code
+        b[1] = Character.getNumericValue(decs.charAt(0));
+        b[2] = Character.getNumericValue(ones.charAt(1));
+        b[3] = Character.getNumericValue(ones.charAt(0));
+        b[4] = Character.getNumericValue(hundreds.charAt(1));
+        b[5] = Character.getNumericValue(hundreds.charAt(0));
+
+        return b;
+
+    }
+    
     @Override
     //Confirm for second click on back
     public void onBackPressed()
