@@ -8,29 +8,29 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 //Bluetooth class used in Gasboard to manage the connection.
-//App requires manual pairing before execution as pairingd and device discovery will not be implemented
-public class Bluetooth {
+//App requires manual pairing before execution as pairing and device discovery will not be implemented
+//This method is a SINGLETON!!!
+public class Bluetooth implements Serializable {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");    //WTF IS DIS
     private BluetoothAdapter bluetoothAdapter;                                                      //Android's bt adapter
     private BluetoothSocket socket;                                                                 //BT Connection socket
     private BluetoothDevice device;
-    private InputStream input;                                                                   //input, consider changing to Integer
+    private InputStream input;                                                                      //input, consider changing to Integer
     private OutputStream out;                                                                       //The output stream of the device
-    private boolean connected = false;                                                                //Status of connection
-    private CommunicationCallback ccb = null;                                                     //Establishes communication between MainActivity and BT threads.
-    private Activity activity;                                                                      //The activity Bluetooth is created in
+    private boolean connected = false;                                                              //Status of connection
+    private CommunicationCallback ccb = null;                                                       //Establishes communication between MainActivity and BT threads.
+
 
     /* <Constructor>
-     * Takes in the host activity as parameter.
      * Saves the adapter to a variable.
      */
-    public Bluetooth(Activity activity) {
-        this.activity = activity;
+    public Bluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
@@ -105,14 +105,14 @@ public class Bluetooth {
     }
 
     /*
-     * Sends the message byte throught the connection
+     * Sends the message byte through the connection
      */
     public void send(byte msg) {
         try {
             out.write(msg);
         } catch (IOException e) {
             connected = false;
-            //ccb.onDisconnect(device, e.getMessage());
+            ccb.onDisconnect(device, e.getMessage());
         }
     }
 
