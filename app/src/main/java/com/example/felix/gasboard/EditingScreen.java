@@ -76,6 +76,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             list.add(new ListEntry(priceList.get(2), priceBCDToDec(y,priceList),"PRICE"));
             y += 3;
         }
+        //if param.get(3) display clock
 
         //Set Up ListView
         adapter = new ListAdapter(this, list);
@@ -144,7 +145,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
                     Log.d("true", "price");
                     priceList = new ArrayList<>(temp);
                 }
-                else
+                else if(temp.get(1) == (byte) 0xC2)
                     Log.d("true", "param");
                     paramList = new ArrayList<>(temp);
                 temp.clear();
@@ -239,16 +240,14 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         int temp = list.get(0);
         for(int i = 1 ; i < list.size() - 2 ;i++)
         {
-
             if((temp^ list.get(i)) < 0)
             {
-                temp = (byte) (((temp^ list.get(i)) << 1)+1);
+                temp = (byte) (((byte)(temp^ list.get(i)) << 1)+1);
             }
             else
             {
-                temp = (byte) ((temp^ list.get(i)) << 1);
+                temp = (byte) ((byte)(temp^ list.get(i)) << 1);
             }
-
         }
 
         if(temp == (byte)0xEE || temp == (byte)0xE5)
@@ -259,24 +258,21 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
 
     public void priceDecToBCD(View view)
     {
-        int i = 2;
-        ArrayList<Integer> bcd = new ArrayList<>(size*3+4);
-        for(int y = 0; y < size*3+4; y++)
-        {
-            bcd.add(0);
-        }
-
-        bcd.set(0,0xEE);
-        bcd.set(1,0xB1);
+        ArrayList<Integer> bcd = new ArrayList<>();
+        bcd.add(0xEE);
+        bcd.add(0xB1);
+        bcd.add(0x02);
         for(int y = 0; y < size; y++)
         {
             int[] a = adapter.getItem(y).getNumbers();
-            bcd.set(i++, (a[0] + 16 * a[1]));
-            bcd.set(i++, (a[2] + 16 * a[3]));
-            bcd.set(i++, (a[4] + 16 * a[5]));
+            bcd.add(a[0] + 16 * a[1]);
+            bcd.add(a[2] + 16 * a[3]);
+            bcd.add(a[4] + 16 * a[5]);
         }
-        bcd.set(size * 3 + 2, checkSum(bcd));
-        bcd.set(size * 3 + 3, 0xEE);
+        bcd.add(1);
+        bcd.add(0xEE);
+        System.out.println(Integer.toHexString(bcd.get(bcd.size()-2)));
+        bcd.set(bcd.size()-2,checkSum(bcd));
 
         for(int y = 0; y<bcd.size(); y++) {
             int b = bcd.get(y);
