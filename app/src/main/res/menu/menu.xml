@@ -4,11 +4,12 @@
 
     <item android:id="@+id/item1"
         android:title="Settings"
-        android:icon="@drawable/Settings"
-        app:showsAnAction="always"/>
+
+        app:showsAnAction="always"
+        android:onClick="login"/>
 
     <item android:id="@+id/item_send"
         android:title="Send"
-        android:icon="@drawable/images"
+
         app:showAsAction="always"/>
 </menu>
