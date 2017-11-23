@@ -1,8 +1,10 @@
 package com.example.felix.gasboard;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import Bluetooth.Bluetooth;
 
 public class EditingScreen extends AppCompatActivity implements Bluetooth.CommunicationCallback
 {   //Declarations
+    static final int REQUEST = 1;
     Bluetooth bt;
     boolean recieving = false;
     ArrayList<Integer> priceList;
@@ -24,12 +27,24 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     boolean doubleBackToExitPressedOnce = false;
     ListAdapter adapter;
     int size;
+    AlertDialog errorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {   //Set up activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editing_screen);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Error! Unable to connect")
+                .setTitle("Error!")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        errorDialog = builder.create();
 
         // Set up bluetooth connection
         bt = new Bluetooth();
@@ -101,12 +116,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     //Shows error message and returns to main screen
     public void onDisconnect(BluetoothDevice device, String message)
     {
-        runOnUiThread(new Runnable() {
-            public void run()
-            {
-                Toast.makeText(EditingScreen.this, "Disconnected", Toast.LENGTH_SHORT).show();
-            }
-        });
+        errorDialog.show();
         //returns to main activity on disconnect and clears activity stack
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -125,7 +135,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
             runOnUiThread(new Runnable() {
                 public void run()
                 {
-                    //Toast.makeText(MainActivity.this, "Sent Successfully.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditingScreen.this, "Sent Successfully.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -161,41 +171,14 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     @Override
     public void onError(final String message)
     {
-        runOnUiThread(new Runnable() {
-            public void run()
-            {
-                Toast.makeText(EditingScreen.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        errorDialog.show();
 
     }
 
     @Override
     public void onConnectError(BluetoothDevice device, final String message)
     {
-        runOnUiThread(new Runnable() {
-            public void run()
-            {
-                Toast.makeText(EditingScreen.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private int[] getPrice(int i, ArrayList<Integer> prices)
-    {
-        String decs = ("00" + Integer.toHexString(prices.get(i))).substring(Integer.toHexString(prices.get(i)).length());
-        String ones = ("00" + Integer.toHexString(prices.get(i+1))).substring(Integer.toHexString(prices.get(i+1)).length());
-        String hundreds = ("00" + Integer.toHexString(prices.get(i+2))).substring(Integer.toHexString(prices.get(i+2)).length());
-        int[] b = new int[6];
-        b[0] = Character.getNumericValue(decs.charAt(1)); // returns asci code
-        b[1] = Character.getNumericValue(decs.charAt(0));
-        b[2] = Character.getNumericValue(ones.charAt(1));
-        b[3] = Character.getNumericValue(ones.charAt(0));
-        b[4] = Character.getNumericValue(hundreds.charAt(1));
-        b[5] = Character.getNumericValue(hundreds.charAt(0));
-
-        return b;
-
+        errorDialog.show();
     }
     
     @Override
@@ -281,4 +264,22 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
 
     }
 
+    public void goToSettings(View view){
+        Intent intent = new Intent(this, Main2Activity.class);
+        intent.putExtra("params", paramList);
+        startActivityForResult(intent,REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Integer> params = (ArrayList<Integer>) data.getExtras().getSerializable("params");
+                for(int y = 0; y<params.size(); y++) {
+                    int b = params.get(y);
+                    bt.send((byte) b);
+                }
+            }
+        }
+    }
 }

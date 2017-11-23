@@ -155,7 +155,7 @@ public class Bluetooth implements Serializable {
             try {
                 socket.connect();
                 out = socket.getOutputStream();
-                input = socket.getInputStream();         // Change here to suit our program
+                input = socket.getInputStream();
                 connected = true;
 
                 new ReceiveThread().start();
