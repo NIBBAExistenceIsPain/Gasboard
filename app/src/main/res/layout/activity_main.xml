@@ -6,29 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.felix.gasboard.MainActivity">
 
-    <item
-    android:id="@+id/empty"
-    android:title="@string/options"
-    android:orderInCategory="101"
-    android:showAsAction="always"
-    android:icon="@drawable/ic_action_overflow">
-
-    <menu>
-
-        <item android:id="@+id/action_settings"
-            android:icon="@android:drawable/ic_menu_preferences"
-            android:showAsAction="ifRoom"
-            android:title="@string/settings" />
-
-        <item android:id="@+id/action_help"
-            android:icon="@android:drawable/ic_menu_help"
-            android:showAsAction="ifRoom"
-            android:title="@string/help" />
-
-    </menu>
-
-</item>
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

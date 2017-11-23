@@ -53,7 +53,14 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
             btns.add((Button) listItemView.findViewById(resID));
         }
 
-        ListEntry x = getItem(position);
+        listItemView.findViewById(R.id.up3).setEnabled(false);
+        listItemView.findViewById(R.id.down3).setEnabled(false);
+        listItemView.findViewById(R.id.up2).setEnabled(false);
+        listItemView.findViewById(R.id.down2).setEnabled(false);
+        listItemView.findViewById(R.id.up1).setEnabled(false);
+        listItemView.findViewById(R.id.down1).setEnabled(false);
+
+        final ListEntry x = getItem(position);
 
         ((TextView) listItemView.findViewById(R.id.nameField)).setText(x.getName());
 
@@ -61,8 +68,8 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
             case 4:
                 digits.get(3).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
                 digits.get(1).setText(String.valueOf(x.getNumbers()[1]));
@@ -73,10 +80,10 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
                 digits.get(3).setVisibility(View.VISIBLE);
                 digits.get(4).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
-                listItemView.findViewById(R.id.up2).setClickable(true);
-                listItemView.findViewById(R.id.down2).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
+                listItemView.findViewById(R.id.up2).setEnabled(true);
+                listItemView.findViewById(R.id.down2).setEnabled(true);
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
                 digits.get(1).setText(String.valueOf(x.getNumbers()[1]));
@@ -89,12 +96,12 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
                 digits.get(4).setVisibility(View.VISIBLE);
                 digits.get(5).setVisibility(View.VISIBLE);
 
-                listItemView.findViewById(R.id.up3).setClickable(true);
-                listItemView.findViewById(R.id.down3).setClickable(true);
-                listItemView.findViewById(R.id.up2).setClickable(true);
-                listItemView.findViewById(R.id.down2).setClickable(true);
-                listItemView.findViewById(R.id.up1).setClickable(true);
-                listItemView.findViewById(R.id.down1).setClickable(true);
+                listItemView.findViewById(R.id.up3).setEnabled(true);
+                listItemView.findViewById(R.id.down3).setEnabled(true);
+                listItemView.findViewById(R.id.up2).setEnabled(true);
+                listItemView.findViewById(R.id.down2).setEnabled(true);
+                listItemView.findViewById(R.id.up1).setEnabled(true);
+                listItemView.findViewById(R.id.down1).setEnabled(true);
 
 
                 digits.get(0).setText(String.valueOf(x.getNumbers()[0]));
@@ -118,51 +125,51 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
             {
                 if(v.getId() == R.id.up1)
                 {
-                    increase(digits.get(5));
+                    increase(digits.get(5), x, 5);
                 }
                 if(v.getId() == R.id.up2)
                 {
-                    increase(digits.get(4));
+                    increase(digits.get(4), x, 4);
                 }
                 if(v.getId() == R.id.up3)
                 {
-                    increase(digits.get(3));
+                    increase(digits.get(3), x, 3);
                 }
                 if(v.getId() == R.id.up4)
                 {
-                    increase(digits.get(2));
+                    increase(digits.get(2), x, 2);
                 }
                 if(v.getId() == R.id.up5)
                 {
-                    increase(digits.get(1));
+                    increase(digits.get(1), x, 1);
                 }
                 if(v.getId() == R.id.up6)
                 {
-                    increase(digits.get(0));
+                    increase(digits.get(0), x, 0);
                 }
                 if(v.getId() == R.id.down1)
                 {
-                    decrease(digits.get(5));
+                    decrease(digits.get(5), x, 5);
                 }
                 if(v.getId() == R.id.down2)
                 {
-                    decrease(digits.get(4));
+                    decrease(digits.get(4), x, 4);
                 }
                 if(v.getId() == R.id.down3)
                 {
-                    decrease(digits.get(3));
+                    decrease(digits.get(3), x, 3);
                 }
                 if(v.getId() == R.id.down4)
                 {
-                    decrease(digits.get(2));
+                    decrease(digits.get(2), x, 2);
                 }
                 if(v.getId() == R.id.down5)
                 {
-                    decrease(digits.get(1));
+                    decrease(digits.get(1), x, 1);
                 }
                 if(v.getId() == R.id.down6)
                 {
-                    decrease(digits.get(0));
+                    decrease(digits.get(0), x, 0);
                 }
             }
         };
@@ -174,18 +181,20 @@ public class ListAdapter extends ArrayAdapter<ListEntry> {
         return listItemView;
     }
 
-    public void increase(TextView v){
+    private void increase(TextView v, ListEntry x, int i){
         int nr = Integer.parseInt(v.getText().toString());
         if(++nr>9)
             nr = 0;
         v.setText(String.valueOf(nr));
+        x.getNumbers()[i] = nr;
     }
 
-    public void decrease(TextView v){
+    private void decrease(TextView v, ListEntry x, int i){
         int nr = Integer.parseInt(v.getText().toString());
         if(--nr<0)
             nr = 9;
         v.setText(String.valueOf(nr));
+        x.getNumbers()[i] = nr;
     }
 
 }

@@ -11,10 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import Bluetooth.Bluetooth;
 
@@ -159,22 +156,4 @@ public class MainActivity extends AppCompatActivity implements Bluetooth.Communi
         startActivity(intent);
 
     }
-
-    public void Login {
-
-            Scanner scan = new Scanner ();
-            Scanner keyboard = new Scanner (System.in);
-            String user = scan.nextLine();
-            String pass = scan.nextLine(); // looks at selected file in scan
-
-            String inpUser = keyboard.nextLine();
-            String inpPass = keyboard.nextLine(); // gets input from user
-
-            if (inpUser.equals(user) && inpPass.equals(pass)) {
-                System.out.print("your login message");
-            } else {
-                System.out.print("your error message");
-            }
-        }
-    }
-
+}

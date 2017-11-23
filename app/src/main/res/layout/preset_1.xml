@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ten"
         app:layout_constraintEnd_toEndOf="@+id/ten"
         app:layout_constraintStart_toEndOf="@+id/hundred"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <Button
         android:id="@+id/down2"
@@ -68,7 +68,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/thousand"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <Button
         android:id="@+id/down1"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="@+id/thousand"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/thousand"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <Button
         android:id="@+id/up6"
@@ -130,7 +130,7 @@
         app:layout_constraintEnd_toEndOf="@+id/ten"
         app:layout_constraintStart_toEndOf="@+id/hundred"
         app:layout_constraintTop_toTopOf="@+id/ten"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <Button
         android:id="@+id/up2"
@@ -143,7 +143,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/thousand"
         app:layout_constraintTop_toTopOf="@+id/hundred"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <Button
         android:id="@+id/up1"
@@ -155,14 +155,13 @@
         app:layout_constraintEnd_toEndOf="@+id/thousand"
         app:layout_constraintStart_toStartOf="@+id/thousand"
         app:layout_constraintTop_toTopOf="@+id/thousand"
-        tools:clickable="false" />
+        tools:clickable="false"/>
 
     <TextView
         android:id="@+id/nameField"
         android:layout_width="132dp"
         android:layout_height="45dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
