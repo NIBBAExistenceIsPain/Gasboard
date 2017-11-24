@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.dialog_fire_missiles)
-                    .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.Password, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Button btn = (Button) findViewById(R.id.item1);
                             btn.setOnClickListener(new View.OnClickListener()
@@ -82,13 +82,13 @@ public class MainActivity extends AppCompatActivity
                                 public void onClick(View v)
                                 {
                                     Scanner sc = new Scanner(System.in);
-                                    System.out.println("Write password.");
+
                                     int i = sc.nextInt();
 
                                     if ( 970074==i) {
-                                        System.out.print("Good");
+                                        android.R.string.ok;
                                     } else {
-                                        System.out.print("Bad");
+                                        android.R.string.cancel;
                                     }
                                 }
                             });
