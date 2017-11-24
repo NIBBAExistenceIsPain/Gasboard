@@ -27,7 +27,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     boolean doubleBackToExitPressedOnce = false;
     ListAdapter adapter;
     int size;
-    AlertDialog errorDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,38 +35,28 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editing_screen);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Error! Unable to connect")
-                .setTitle("Error!")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-
-        errorDialog = builder.create();
-
         // Set up bluetooth connection
-        bt = new Bluetooth();
-        bt.setCommunicationCallback(this);
-        bt.enableBluetooth();
-        bt.connectToName("hc06");
+       // bt = new Bluetooth();
+        //bt.setCommunicationCallback(this);
+       // bt.enableBluetooth();
+       // bt.connectToName("hc06");
 
-        while(!(bt.isConnected()))
-        {
+        //while(!(bt.isConnected()))
+       // {
             //wait to connect!
-        }
+        //}
 
         // Instantiate arryas
         priceList = new ArrayList<>();
         paramList = new ArrayList<>();
         temp = new ArrayList<Integer>();
-
+//add content to price and param list;
         int[] SEND_REQUEST = new int[]{0xEE, 0xB4, 0xB4, 0xE5}; // Request prices
         for(int i = 0; i<SEND_REQUEST.length; i++)
         {
-            bt.send((byte) SEND_REQUEST[i]);
+            //bt.send((byte) SEND_REQUEST[i]);
         }
+        fillPriceList();
         while(priceList.isEmpty())
         {
             //wait to receive prices
@@ -75,8 +65,9 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         SEND_REQUEST = new int[]{0xEE, 0xB5, 0xB6, 0xE5}; // Request params
         for(int i = 0; i<SEND_REQUEST.length; i++)
         {
-            bt.send((byte) SEND_REQUEST[i]);
+            //bt.send((byte) SEND_REQUEST[i]);
         }
+        fillParamList();
         while(paramList.isEmpty())
         {
             //wait to receive params
@@ -116,7 +107,6 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     //Shows error message and returns to main screen
     public void onDisconnect(BluetoothDevice device, String message)
     {
-        errorDialog.show();
         //returns to main activity on disconnect and clears activity stack
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -171,14 +161,12 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
     @Override
     public void onError(final String message)
     {
-        errorDialog.show();
 
     }
 
     @Override
     public void onConnectError(BluetoothDevice device, final String message)
     {
-        errorDialog.show();
     }
     
     @Override
@@ -259,7 +247,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
 
         for(int y = 0; y<bcd.size(); y++) {
             int b = bcd.get(y);
-            bt.send((byte) b);
+            //bt.send((byte) b);
         }
 
     }
@@ -270,6 +258,31 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
         startActivityForResult(intent,REQUEST);
     }
 
+
+    private void fillParamList()
+    {
+        int[] list = new int[] {0xEE, 0xC2, 0x01, 0x02, 0x03, 0x01, 0x01, 0x00,
+                0x01, 0x00, 0x00, 0xE0, 0xE5};
+
+        paramList = new ArrayList<Integer>();
+        for (int i = 0; i<list.length; i++)
+        {
+            paramList.add(list[i]);
+        }
+    }
+
+    private void fillPriceList()
+    {
+        int[] list = new int[] {0xEE, 0xC1, 0x03, 0x05, 0x02, 0x10, 0x02, 0x00,
+                0x43, 0x05, 0x00, 0x76, 0x08, 0x00, 0x09, 0x01, 0x00, 0x32, 0x04, 0x00, 0xE0, 0xE5};
+
+        priceList = new ArrayList<Integer>();
+        for (int i = 0; i<list.length; i++)
+        {
+            priceList.add(list[i]);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST) {
@@ -277,7 +290,7 @@ public class EditingScreen extends AppCompatActivity implements Bluetooth.Commun
                 ArrayList<Integer> params = (ArrayList<Integer>) data.getExtras().getSerializable("params");
                 for(int y = 0; y<params.size(); y++) {
                     int b = params.get(y);
-                    bt.send((byte) b);
+                    //bt.send((byte) b);
                 }
             }
         }
