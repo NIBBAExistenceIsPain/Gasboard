@@ -80,6 +80,7 @@ public class Main2Activity extends AppCompatActivity {
         temp.add(p7.isChecked()?1:0);
         temp.add(p8.getProgress());
         temp.add(0);
+        temp.add(0);
         temp.add(0xE5);
         temp.set(temp.size()-2,checkSum(temp));
 
