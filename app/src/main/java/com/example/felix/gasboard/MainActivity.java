@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Scanner;
+
 
 public class MainActivity extends AppCompatActivity
 {
@@ -28,6 +30,24 @@ public class MainActivity extends AppCompatActivity
 
         //instantiating views
         b1 = (Button) findViewById(R.id.btnToList);
+
+        Button btn = (Button) findViewById(R.id.item1);
+        btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Write password.");
+                int i = sc.nextInt();
+
+                if ( 970074==i) {
+                    System.out.print("Good");
+                } else {
+                    System.out.print("Bad");
+                }
+            }
+        });
     }
 
 
@@ -58,5 +78,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
 
     }
+
+
 }
 
