@@ -1,7 +1,12 @@
 package com.example.felix.gasboard;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -30,24 +35,6 @@ public class MainActivity extends AppCompatActivity
 
         //instantiating views
         b1 = (Button) findViewById(R.id.btnToList);
-
-        Button btn = (Button) findViewById(R.id.item1);
-        btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Scanner sc = new Scanner(System.in);
-                System.out.println("Write password.");
-                int i = sc.nextInt();
-
-                if ( 970074==i) {
-                    System.out.print("Good");
-                } else {
-                    System.out.print("Bad");
-                }
-            }
-        });
     }
 
 
@@ -77,6 +64,44 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, EditingScreen.class);
         startActivity(intent);
 
+    }
+
+    @SuppressLint("ValidFragment")
+    public class LoginFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.dialog_fire_missiles)
+                    .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Button btn = (Button) findViewById(R.id.item1);
+                            btn.setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    Scanner sc = new Scanner(System.in);
+                                    System.out.println("Write password.");
+                                    int i = sc.nextInt();
+
+                                    if ( 970074==i) {
+                                        System.out.print("Good");
+                                    } else {
+                                        System.out.print("Bad");
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+            return builder.create();
+        }
     }
 
 
